@@ -1,0 +1,180 @@
+package pl.bs.books.Dao;
+
+import com.google.gson.Gson;
+import com.google.gson.reflect.TypeToken;
+
+//import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.simple.JSONObject;
+import org.json.simple.JSONArray;
+import org.json.simple.parser.JSONParser;
+import org.json.simple.parser.ParseException;
+import org.springframework.stereotype.Repository;
+import pl.bs.books.Entity.Book;
+
+import java.io.FileReader;
+import java.io.IOException;
+import java.lang.reflect.Type;
+import java.util.Collection;
+import java.util.HashMap;
+import java.util.Map;
+import java.util.TreeMap;
+
+@Repository
+public class BookDao {
+
+    private static Map<String, Book> books;
+    static {
+        books = new HashMap<String, Book>() {
+            {
+                JSONParser parser = new JSONParser();
+                Gson gson = new Gson();
+                Object object = null;
+                try {
+                    object = parser.parse(new FileReader("C:\\Users\\Bartek\\IntelliJ\\books\\src\\main\\resources\\static\\books.json"));
+
+
+                //convert Object to JSONObject
+                    JSONObject jsonObject = (JSONObject)object;
+
+                    //Reading the String
+                    //String name = (String) jsonObject.get("Name");
+                    //Long age = (Long) jsonObject.get("Age");
+
+                    //Reading the array
+                    JSONArray items = (JSONArray)jsonObject.get("items");
+                    for (int i = 0; i < items.size(); i++) {
+                        JSONObject x= (JSONObject) items.get(i);
+                        JSONObject j = (JSONObject) x.get("volumeInfo");
+                        //JSONObject c = items.getJSONObject(i);
+
+                        JSONObject imageLinks=(JSONObject) j.get("imageLinks");
+                        org.json.simple.JSONArray industryIdentifiers = (org.json.simple.JSONArray) jsonObject.get("industryIdentifiers");
+                       /* for (int k = 0; k < industryIdentifiers.size(); k++) {
+                            System.out.println(industryIdentifiers.get(k));
+
+                        }*/
+
+
+
+                        String isbn;
+                        String title;
+                        String subtitle;
+                        String publisher;
+                        String publishedDate;
+                        String description;
+                        int pageCount;
+                        String thumbnailUrl;
+                        String language;
+                        String previewLink;
+                        double avarageRating;
+                        String[] authors;
+                        String[] categories;
+
+
+
+                        isbn="isbn"+i;
+                        try {
+                            title = j.get("title").toString();//
+                        }catch(NullPointerException e){
+                            title =null;
+                        }
+                        try{
+                            subtitle=j.get("subtitle").toString();//
+                        }catch(NullPointerException e){
+                            subtitle =null;
+                        }
+                        try{
+                            publisher=j.get("publisher").toString();//
+                        }catch(NullPointerException e){
+                            publisher =null;
+                        }
+                        try{
+                            publishedDate=j.get("publishedDate").toString();//
+                        }catch(NullPointerException e){
+                            publishedDate=null;
+                        }
+                        try{
+                            description=j.get("description").toString();//
+                        }catch(NullPointerException e){
+                            description =null;
+                        }
+                        try{
+                            pageCount=Integer.parseInt(j.get("pageCount").toString());//
+                        }catch(NullPointerException e){
+                            pageCount = 0;
+                        }
+                        try{
+                            thumbnailUrl=imageLinks.get("thumbnail").toString();
+                        }catch(NullPointerException e){
+                            thumbnailUrl=null;
+                        }
+                        try{
+                            language=j.get("language").toString();//
+                        }catch(NullPointerException e){
+                            language =null;
+                        }
+                        try{
+                            previewLink=j.get("previewLink").toString();//
+                        }catch(NullPointerException e){
+                            previewLink=null;
+                        }
+                        try{
+                            avarageRating=Double.parseDouble(j.get("averageRating").toString());//
+                        }catch(NullPointerException e){
+                            avarageRating= 0.0;
+                        }
+                        try{
+                            authors = gson.fromJson(j.get("authors").toString() , String[].class);
+                            //authors=j.get("authors");//
+                        }catch(NullPointerException e){
+                            authors =null;
+                        }
+                        try{
+                            categories = gson.fromJson(j.get("categories").toString() , String[].class);
+                            //categories=(String[])j.get("categories");//
+                        }catch(NullPointerException e) {
+                            categories = null;
+                        }
+
+
+                        put(isbn, new Book(isbn,title,
+                                subtitle,
+                                publisher,
+                                publishedDate,
+                                description,
+                                pageCount,
+                                thumbnailUrl,
+                                language,
+                                previewLink,
+                                avarageRating,
+                                authors,
+                                categories));
+
+
+                    }
+
+                } catch (IOException e) {
+                    e.printStackTrace();
+                } catch (ParseException e) {
+                    e.printStackTrace();
+                }
+
+
+            }
+        };
+
+    }
+
+    public String getAllBooks(){
+        Gson gson = new Gson();
+        Type personType = new TypeToken<HashMap<String, Book>>(){}.getType();
+        String json = gson.toJson(books, personType);
+
+        return json;
+    }
+
+    public Book getBookById(String id) {
+        return this.books.get(id);
+    }
+}
