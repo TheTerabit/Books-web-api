@@ -15,7 +15,7 @@ public class BookService {
         return this.bookDao.getAllBooks();
     }
 
-    public Book getBookById(String id) {
-        return this.bookDao.getBookById(id);
+    public String getBookById(String category) {
+        return this.bookDao.getBookById(category);
     }
 }

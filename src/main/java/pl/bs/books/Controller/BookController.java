@@ -22,8 +22,8 @@ public class BookController {
         return bookService.getAllBooks();
     }
 
-    @RequestMapping(value="/{id}",method=RequestMethod.GET)
-    public Book getBookById(@PathVariable("id") String id){
-        return bookService.getBookById(id);
+    @RequestMapping(value="/{category}",method=RequestMethod.GET)
+    public String getBookById(@PathVariable("category") String category){
+        return bookService.getBookById(category);
     }
 }

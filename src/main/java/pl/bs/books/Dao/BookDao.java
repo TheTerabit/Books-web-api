@@ -47,17 +47,31 @@ public class BookDao {
                         JSONObject x= (JSONObject) items.get(i);
                         JSONObject j = (JSONObject) x.get("volumeInfo");
                         //JSONObject c = items.getJSONObject(i);
-
+                        String isbn = "";
                         JSONObject imageLinks=(JSONObject) j.get("imageLinks");
-                        org.json.simple.JSONArray industryIdentifiers = (org.json.simple.JSONArray) jsonObject.get("industryIdentifiers");
-                       /* for (int k = 0; k < industryIdentifiers.size(); k++) {
-                            System.out.println(industryIdentifiers.get(k));
+                        boolean check=true;
+                        try {
+                            org.json.simple.JSONArray industryIdentifiers = (org.json.simple.JSONArray) j.get("industryIdentifiers");
+                            for (int k = 0; k < industryIdentifiers.size(); k++) {
+                                JSONObject y= (JSONObject) industryIdentifiers.get(k);
+                                if((y.get("type")=="ISBN_13")) {
+                                    isbn = y.get("identifier").toString();
+                                    check =false;
+                                    break;
+                                }
+                                else if(check)
+                                    isbn=x.get("id").toString();
 
-                        }*/
+
+
+                            }
+                        }catch(NullPointerException e){
+                            isbn=x.get("id").toString();
+                        }
 
 
 
-                        String isbn;
+                        ;
                         String title;
                         String subtitle;
                         String publisher;
@@ -73,7 +87,7 @@ public class BookDao {
 
 
 
-                        isbn="isbn"+i;
+                        //isbn="isbn"+i;
                         try {
                             title = j.get("title").toString();//
                         }catch(NullPointerException e){
@@ -170,11 +184,16 @@ public class BookDao {
         Gson gson = new Gson();
         Type personType = new TypeToken<HashMap<String, Book>>(){}.getType();
         String json = gson.toJson(books, personType);
-
+        json=json.replaceAll("]}","]}\n");
+        json=json.replaceAll(",",",\n");
         return json;
     }
 
-    public Book getBookById(String id) {
-        return this.books.get(id);
+    public String getBookById(String id) {
+        Gson gson = new Gson();
+        String json = gson.toJson(this.books.get(id));
+        json=json.replaceAll("]}","]}\n");
+        json=json.replaceAll(",",",\n");
+        return json;
     }
 }
