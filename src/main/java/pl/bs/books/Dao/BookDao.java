@@ -10,6 +10,7 @@ import org.json.simple.JSONArray;
 import org.json.simple.parser.JSONParser;
 import org.json.simple.parser.ParseException;
 import org.springframework.stereotype.Repository;
+import pl.bs.books.Entity.Author;
 import pl.bs.books.Entity.Book;
 
 import java.io.FileReader;
@@ -24,10 +25,11 @@ public class BookDao {
         insertBooks();
     }
     private static Map<String, Book> books;
-    //private static Map<String, Book> booksByCategory;
+    private static Map<String, Author> authorsRates;
 
     private void insertBooks(){
         books = new HashMap<String, Book>() ;
+        authorsRates = new HashMap<String, Author>() ;
                         JSONParser parser = new JSONParser();
                         Gson gson = new Gson();
                         Object object = null;
@@ -163,6 +165,21 @@ public class BookDao {
                                         avarageRating,
                                         authors,
                                         categories));
+
+
+                                if(avarageRating!=0.0)
+                                    try {
+                                        for (int k = 0; k < authors.length; k++) {
+                                            if (authorsRates.containsValue(authors[k])) {
+                                                Author a = authorsRates.get(authors[k]);
+                                                a.addBook(avarageRating);
+                                                authorsRates.replace(authors[k], a);
+                                            } else
+                                                authorsRates.put(authors[k], new Author(authors[k], avarageRating));
+                                        }
+                                    }catch (NullPointerException e){}
+
+
                             }
 
                         } catch (IOException e) {
@@ -215,5 +232,9 @@ public class BookDao {
                 return true;
         }
         return false;
+    }
+
+    public String getRating() {
+         return "Rating";
     }
 }

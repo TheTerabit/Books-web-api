@@ -23,4 +23,8 @@ public class BookService {
     public JSONArray getBooksByCategory(String category) {
         return this.bookDao.getBooksByCategory(category);
     }
+
+    public String getRating() {
+        return this.bookDao.getRating();
+    }
 }

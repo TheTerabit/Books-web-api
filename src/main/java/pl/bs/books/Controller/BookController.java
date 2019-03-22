@@ -33,4 +33,9 @@ public class BookController {
     public JSONArray getBookByCategory(@PathVariable("categoryName") String category){
         return bookService.getBooksByCategory(category);
     }
+
+    @RequestMapping(value="/rating",method = RequestMethod.GET)
+    public String getRating(){
+        return bookService.getRating();
+    }
 }
