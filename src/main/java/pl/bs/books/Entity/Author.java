@@ -8,6 +8,7 @@ public class Author {
     public Author(String name, double rate) {
         this.name = name;
         numberOfBooks=1;
+        rates=new double[1000];
         rates[0]=rate;
     }
     public Author() {}

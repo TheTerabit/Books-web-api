@@ -5,6 +5,7 @@ import com.google.gson.reflect.TypeToken;
 
 //import org.json.JSONArray;
 import org.json.JSONException;
+import org.json.JSONStringer;
 import org.json.simple.JSONObject;
 import org.json.simple.JSONArray;
 import org.json.simple.parser.JSONParser;
@@ -33,6 +34,9 @@ public class BookDao {
                         JSONParser parser = new JSONParser();
                         Gson gson = new Gson();
                         Object object = null;
+
+                        //System.getProperty("");
+
                         try {
                             object = parser.parse(new FileReader("C:\\Users\\Bartek\\IntelliJ\\books\\src\\main\\resources\\static\\books.json"));
 
@@ -78,11 +82,11 @@ public class BookDao {
                                 String publisher;
                                 String publishedDate;
                                 String description;
-                                int pageCount;
+                                Integer pageCount;
                                 String thumbnailUrl;
                                 String language;
                                 String previewLink;
-                                double avarageRating;
+                                Double avarageRating;
                                 String[] authors;
                                 String[] categories;
 
@@ -117,7 +121,7 @@ public class BookDao {
                                 try{
                                     pageCount=Integer.parseInt(j.get("pageCount").toString());//
                                 }catch(NullPointerException e){
-                                    pageCount = 0;
+                                    pageCount = null;
                                 }
                                 try{
                                     thumbnailUrl=imageLinks.get("thumbnail").toString();
@@ -137,7 +141,7 @@ public class BookDao {
                                 try{
                                     avarageRating=Double.parseDouble(j.get("averageRating").toString());//
                                 }catch(NullPointerException e){
-                                    avarageRating= 0.0;
+                                    avarageRating= null;
                                 }
                                 try{
                                     authors = gson.fromJson(j.get("authors").toString() , String[].class);
@@ -167,7 +171,7 @@ public class BookDao {
                                         categories));
 
 
-                                if(avarageRating!=0.0)
+                                if(avarageRating!=null)
                                     try {
                                         for (int k = 0; k < authors.length; k++) {
                                             if (authorsRates.containsValue(authors[k])) {
@@ -175,10 +179,13 @@ public class BookDao {
                                                 a.addBook(avarageRating);
                                                 authorsRates.replace(authors[k], a);
                                             } else
-                                                authorsRates.put(authors[k], new Author(authors[k], avarageRating));
-                                        }
-                                    }catch (NullPointerException e){}
+                                                authorsRates.put(authors[k],  new Author(authors[k], avarageRating));
 
+
+                                        }
+                                    }catch (NullPointerException e){ }
+                                //System.out.println(authorsRates.size());
+                                //System.out.println(authorsRates);
 
                             }
 
@@ -193,21 +200,18 @@ public class BookDao {
 
     }
 
-    public String getAllBooks(){
-        Gson gson = new Gson();
-        Type personType = new TypeToken<HashMap<String, Book>>(){}.getType();
-        String json = gson.toJson(books, personType);
-        json=json.replaceAll("]}","]}\n");
-        json=json.replaceAll(",",",\n");
-        return json;
+    public JSONArray getAllBooks(){
+        JSONArray result = new JSONArray();
+        result.addAll(books.values());
+
+        return result;
     }
 
-    public String getBookById(String id) {
-        Gson gson = new Gson();
-        String json = gson.toJson(this.books.get(id));
-        json=json.replaceAll("]}","]}\n");
-        json=json.replaceAll(",",",\n");
-        return json;
+    public Book getBookById(String id) {
+         JSONObject json = new JSONObject(books);
+         Book result = (Book) json.get(id);
+
+        return result;
     }
 
     public JSONArray getBooksByCategory(String category) {
@@ -234,7 +238,13 @@ public class BookDao {
         return false;
     }
 
-    public String getRating() {
-         return "Rating";
+    public JSONArray getRating() {
+
+        JSONArray json = new JSONArray();
+        JSONArray result = new JSONArray();
+        Gson gson = new Gson();
+        json.addAll(authorsRates.values());
+
+        return json;
     }
 }

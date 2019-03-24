@@ -1,6 +1,7 @@
 package pl.bs.books.Controller;
 
 import org.json.simple.JSONArray;
+import org.json.simple.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -19,12 +20,12 @@ public class BookController {
     private BookService bookService;
 
     @RequestMapping(value="/book",method = RequestMethod.GET)
-    public String getAllStudents(){
+    public JSONArray getAllStudents(){
         return bookService.getAllBooks();
     }
 
     @RequestMapping(value="/book/{id}",method=RequestMethod.GET)
-    public String getBookById(@PathVariable("id") String id){
+    public Book getBookById(@PathVariable("id") String id){
         return bookService.getBookById(id);
     }
 
@@ -35,7 +36,7 @@ public class BookController {
     }
 
     @RequestMapping(value="/rating",method = RequestMethod.GET)
-    public String getRating(){
+    public JSONArray getRating(){
         return bookService.getRating();
     }
 }

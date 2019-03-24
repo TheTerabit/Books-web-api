@@ -1,6 +1,7 @@
 package pl.bs.books.Service;
 
 import org.json.simple.JSONArray;
+import org.json.simple.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import pl.bs.books.Dao.BookDao;
@@ -12,11 +13,11 @@ public class BookService {
     @Autowired
     private BookDao bookDao;
 
-    public String getAllBooks(){
+    public JSONArray getAllBooks(){
         return this.bookDao.getAllBooks();
     }
 
-    public String getBookById(String id) {
+    public Book getBookById(String id) {
         return this.bookDao.getBookById(id);
     }
 
@@ -24,7 +25,7 @@ public class BookService {
         return this.bookDao.getBooksByCategory(category);
     }
 
-    public String getRating() {
+    public JSONArray getRating() {
         return this.bookDao.getRating();
     }
 }

@@ -1,5 +1,11 @@
 package pl.bs.books.Entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.fasterxml.jackson.annotation.JsonInclude;
+
+@JsonInclude(JsonInclude.Include.NON_NULL)
+@JsonIgnoreProperties(ignoreUnknown = true)
 public class Book {
 
     //private String kind;
@@ -9,11 +15,11 @@ public class Book {
     private String publisher;
     private String publishedDate;
     private String description;
-    private int pageCount;
+    private Integer pageCount;
     private String thumbnailUrl;
     private String language;
     private String previewLink;
-    private double averageRating;
+    private Double averageRating;
     private String[] authors;
     private String[] categories;
 
@@ -24,11 +30,11 @@ public class Book {
                 String publisher,
                 String publishedDate,
                 String description,
-                int pageCount,
+                Integer pageCount,
                 String thumbnailUrl,
                 String language,
                 String previewLink,
-                double avarageRating,
+                Double avarageRating,
                 String[] authors,
                 String[] categories) {
 
@@ -97,11 +103,11 @@ public class Book {
         this.description = description;
     }
 
-    public int getPageCount() {
+    public Integer getPageCount() {
         return pageCount;
     }
 
-    public void setPageCount(int pageCount) {
+    public void setPageCount(Integer pageCount) {
         this.pageCount = pageCount;
     }
 
@@ -129,11 +135,11 @@ public class Book {
         this.previewLink = previewLink;
     }
 
-    public double getAvarageRating() {
+    public Double getAvarageRating() {
         return averageRating;
     }
 
-    public void setAvarageRating(double avarageRating) {
+    public void setAvarageRating(Double avarageRating) {
         this.averageRating = avarageRating;
     }
 
