@@ -1,12 +1,15 @@
 package pl.bs.books.Controller;
 
+import org.apache.velocity.exception.ResourceNotFoundException;
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.client.HttpClientErrorException;
 import pl.bs.books.Entity.Book;
 import pl.bs.books.Service.BookService;
 
@@ -26,7 +29,11 @@ public class BookController {
 
     @RequestMapping(value="/book/{id}",method=RequestMethod.GET)
     public Book getBookById(@PathVariable("id") String id){
-        return bookService.getBookById(id);
+
+        if (bookService.getBookById(id)==null) {
+            throw new HttpClientErrorException(HttpStatus.NOT_FOUND);
+        }
+            return bookService.getBookById(id);
     }
 
 
