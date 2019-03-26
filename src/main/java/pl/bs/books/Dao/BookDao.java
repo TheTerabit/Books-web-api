@@ -17,6 +17,8 @@ import pl.bs.books.Entity.Book;
 import java.io.FileReader;
 import java.io.IOException;
 import java.lang.reflect.Type;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 import java.util.*;
 
 @Repository
@@ -80,7 +82,7 @@ public class BookDao {
                                 String title;
                                 String subtitle;
                                 String publisher;
-                                String publishedDate;
+                                Long publishedDate = new Long(30002);
                                 String description;
                                 Integer pageCount;
                                 String thumbnailUrl;
@@ -109,9 +111,22 @@ public class BookDao {
                                     publisher =null;
                                 }
                                 try{
-                                    publishedDate=j.get("publishedDate").toString();//
+                                    String publishedDateString=j.get("publishedDate").toString();//
+                                    DateFormat formatterYear = new SimpleDateFormat("yyyy");
+                                    DateFormat formatterYMD = new SimpleDateFormat("yyyy-MM-dd");
+                                    Date date = new Date();
+
+                                    if(publishedDateString.length()<9)
+                                        date = formatterYear.parse(publishedDateString);
+                                    else
+                                        date = formatterYMD.parse(publishedDateString);
+
+                                    publishedDate = date.getTime();
+
                                 }catch(NullPointerException e){
                                     publishedDate=null;
+                                } catch (java.text.ParseException e) {
+                                    e.printStackTrace();
                                 }
                                 try{
                                     description=j.get("description").toString();//
@@ -244,6 +259,17 @@ public class BookDao {
         JSONArray result = new JSONArray();
         Gson gson = new Gson();
         json.addAll(authorsRates.values());
+
+
+       // List<JSONObject> myJsonArrayAsList = new ArrayList<JSONObject>();
+        //for (int i = 0; i < json.size(); i++)
+         //   myJsonArrayAsList.add((JSONObject) json.get(i));
+
+
+       // Collections.sort(authorsRates.values(), (p1, p2) -> p1.numberOfBooks.compareTo(p2.firstName));
+
+
+       // myJsonArrayAsList.sort(Comparator.comparing(o -> o.get("numberOfBooks").toString()));
 
         return json;
     }

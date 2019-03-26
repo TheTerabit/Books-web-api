@@ -13,7 +13,7 @@ public class Book {
     private String title;
     private String subtitle;
     private String publisher;
-    private String publishedDate;
+    private Long publishedDate;
     private String description;
     private Integer pageCount;
     private String thumbnailUrl;
@@ -28,7 +28,7 @@ public class Book {
                 String title,
                 String subtitle,
                 String publisher,
-                String publishedDate,
+                Long publishedDate,
                 String description,
                 Integer pageCount,
                 String thumbnailUrl,
@@ -87,11 +87,11 @@ public class Book {
         this.publisher = publisher;
     }
 
-    public String getPublishedDate() {
+    public Long getPublishedDate() {
         return publishedDate;
     }
 
-    public void setPublishedDate(String publishedDate) {
+    public void setPublishedDate(Long publishedDate) {
         this.publishedDate = publishedDate;
     }
 
