@@ -33,4 +33,4 @@ If a book is not rated, it should be not taken into account in the calculation o
 
   Endpoint url: /api/rating
 
-Those endpoints work fine, but there are two things missing: publishedDate as long (instead of String) and descending order in rating. It is going to be finished at 100% in the next few days. 
+Those endpoints work fine, but there is one thing missing: descending order in rating. It is going to be finished at 100% in the next few days. 
