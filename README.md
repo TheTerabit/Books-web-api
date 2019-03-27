@@ -33,4 +33,4 @@ If a book is not rated, it should be not taken into account in the calculation o
 
   Endpoint url: /api/rating
 
-Those endpoints work fine, but rating endpoint needs to be fixed. It is going to be finished at 100% in the next few days. 
+Those endpoints work fine, but rating endpoint needs to be returned in descending order. It is going to be finished at 100% in the next few days. 
