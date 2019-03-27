@@ -92,8 +92,9 @@ public class BookDao {
                                 String[] authors;
                                 String[] categories;
 
-
-
+                                ///////////////////////////
+                                //Optional<T> variable;
+                                //////////////////////////
                                 //isbn="isbn"+i;
                                 try {
                                     title = j.get("title").toString();//
@@ -189,7 +190,7 @@ public class BookDao {
                                 if(avarageRating!=null)
                                     try {
                                         for (int k = 0; k < authors.length; k++) {
-                                            if (authorsRates.containsValue(authors[k])) {
+                                            if (authorsRates.containsKey(authors[k])) {
                                                 Author a = authorsRates.get(authors[k]);
                                                 a.addBook(avarageRating);
                                                 authorsRates.replace(authors[k], a);
@@ -260,9 +261,9 @@ public class BookDao {
         Gson gson = new Gson();
         json.addAll(authorsRates.values());
 
-
-       // List<JSONObject> myJsonArrayAsList = new ArrayList<JSONObject>();
-        //for (int i = 0; i < json.size(); i++)
+        json.stream().sorted(
+                Comparator.comparing(a ->  Double.valueOf((String)((JSONObject) a).get("avarageRating")))
+        ).forEach(o -> System.out.println(o));        //for (int i = 0; i < json.size(); i++)
          //   myJsonArrayAsList.add((JSONObject) json.get(i));
 
 
