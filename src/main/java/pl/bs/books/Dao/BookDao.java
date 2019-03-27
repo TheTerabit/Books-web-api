@@ -261,9 +261,10 @@ public class BookDao {
         Gson gson = new Gson();
         json.addAll(authorsRates.values());
 
-        json.stream().sorted(
+       /* json.stream().sorted(
                 Comparator.comparing(a ->  Double.valueOf((String)((JSONObject) a).get("avarageRating")))
-        ).forEach(o -> System.out.println(o));        //for (int i = 0; i < json.size(); i++)
+        ).forEach(o -> System.out.println(o));*/
+                //for (int i = 0; i < json.size(); i++)
          //   myJsonArrayAsList.add((JSONObject) json.get(i));
 
 
