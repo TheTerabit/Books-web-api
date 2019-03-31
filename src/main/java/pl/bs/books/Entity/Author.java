@@ -29,7 +29,7 @@ public class Author {
         numberOfBooks++;
     }
 
-    public double getAvarageRating(){
+    public double getAverageRating(){
         double sum=0.0;
         for(int i=0;i<numberOfBooks;i++){
             sum+=rates[i];

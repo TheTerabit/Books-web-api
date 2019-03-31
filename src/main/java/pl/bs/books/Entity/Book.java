@@ -34,7 +34,7 @@ public class Book {
                 String thumbnailUrl,
                 String language,
                 String previewLink,
-                Double avarageRating,
+                Double averageRating,
                 String[] authors,
                 String[] categories) {
 
@@ -48,7 +48,7 @@ public class Book {
         this.thumbnailUrl = thumbnailUrl;
         this.language = language;
         this.previewLink = previewLink;
-        this.averageRating = avarageRating;
+        this.averageRating = averageRating;
         this.authors = authors;
         this.categories = categories;
     }
