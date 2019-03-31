@@ -16,7 +16,7 @@ Endpoints
 - Book by ISBN 
 
   Returns a book identified by the given ISBN number in the form of a JSON document or 
-return a 404 if the book does not exists in the data set.
+return a 404 if the book does not exist in the data set.
 
   Endpoint url: /api/book/{isbn}
 
