@@ -1,31 +1,43 @@
-package pl.bs.books.Service;
+package pl.bs.books.service;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import org.json.simple.JSONArray;
-import org.json.simple.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import pl.bs.books.Dao.BookDao;
-import pl.bs.books.Entity.Book;
+import pl.bs.books.dao.BookDao;
+import pl.bs.books.entity.ProcessedBook;
 
-import java.util.Collection;
+
 @Service
 public class BookService {
+
+    private final BookDao bookDao;
+    private final ObjectMapper objectMapper = new ObjectMapper();
+
     @Autowired
-    private BookDao bookDao;
+    public BookService(BookDao bookDao){ this.bookDao=bookDao; }
 
-    public JSONArray getAllBooks(){
-        return this.bookDao.getAllBooks();
+    public String getAllBooks() throws JsonProcessingException {
+        return objectMapper.writeValueAsString(this.bookDao.getAllBooks().values());
     }
 
-    public Book getBookById(String id) {
-        return this.bookDao.getBookById(id);
+    public String getBookById(String id) throws JsonProcessingException {
+        return objectMapper.writeValueAsString(this.bookDao.getAllBooks().get(id));
     }
 
-    public JSONArray getBooksByCategory(String category) {
-        return this.bookDao.getBooksByCategory(category);
+    public String getBooksByCategory(String category) throws JsonProcessingException {
+        JSONArray result = new JSONArray();
+        for(ProcessedBook processedBook : this.bookDao.getAllBooks().values()){
+            if(processedBook.getCategories()!=null)
+                if(processedBook.getCategories().contains(category))
+                    result.add(processedBook);
+        }
+        return objectMapper.writeValueAsString(result);
     }
 
-    public JSONArray getRating() {
-        return this.bookDao.getRating();
+    public String getRating() throws JsonProcessingException {
+        return objectMapper.writeValueAsString(this.bookDao.getAuthorsRates().values());
     }
+
 }

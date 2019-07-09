@@ -1,11 +1,14 @@
-package pl.bs.books.Entity;
+package pl.bs.books.entity;
 
+import lombok.Getter;
+import lombok.Setter;
+
+@Getter
+@Setter
 public class Author {
     private String name;
     private double[] rates;
     private int numberOfBooks;
-
-
 
     public Author(String name, double rate) {
         this.name = name;
@@ -15,14 +18,6 @@ public class Author {
 
     }
     public Author() {}
-
-    public String getName() {
-        return name;
-    }
-
-    public void setName(String name) {
-        this.name = name;
-    }
 
     public void addBook(double rate){
         rates[numberOfBooks]=rate;
